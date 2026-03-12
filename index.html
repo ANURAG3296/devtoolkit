@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DevToolKit - Free online developer tools. JSON formatter, regex tester, Base64 encoder, password generator, color picker, and more. No ads, no tracking, 100% client-side.">
+    <meta name="keywords" content="developer tools, JSON formatter, regex tester, Base64 encoder, password generator, color picker, CSS minifier, HTML minifier, markdown converter, word counter, lorem ipsum, URL encoder, hash generator">
+    <meta name="author" content="DevToolKit">
+    <meta name="theme-color" content="#3b82f6">
+    <meta property="og:title" content="DevToolKit - Free Online Developer Tools">
+    <meta property="og:description" content="12+ free developer tools. JSON formatter, regex tester, Base64 encoder, password generator, and more. Fast, private, no signup required.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>DevToolKit - Free Online Developer Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a; color: #e2e8f0; min-height: 100vh;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        .ad-banner {
+            max-width: 728px; height: 90px; margin: 20px auto;
+            border: 2px dashed #334155; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: #475569; font-size: 14px; background: #1e293b22;
+        }
+        /* REPLACE WITH ADSENSE CODE */
+
+        header {
+            text-align: center; padding: 60px 20px 40px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-bottom: 1px solid #1e293b;
+        }
+        header h1 { font-size: 3rem; font-weight: 800; margin-bottom: 12px; }
+        header h1 span { color: #3b82f6; }
+        header p { font-size: 1.2rem; color: #94a3b8; max-width: 600px; margin: 0 auto; }
+
+        .features {
+            display: flex; justify-content: center; gap: 40px; padding: 30px 20px;
+            flex-wrap: wrap; border-bottom: 1px solid #1e293b;
+        }
+        .feature { text-align: center; color: #94a3b8; font-size: 0.9rem; }
+        .feature strong { color: #3b82f6; display: block; font-size: 1.1rem; margin-bottom: 4px; }
+
+        main { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+        .section-title {
+            font-size: 1.4rem; font-weight: 700; margin-bottom: 20px;
+            padding-bottom: 10px; border-bottom: 2px solid #3b82f6;
+            display: inline-block;
+        }
+        .section { margin-bottom: 50px; }
+
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px; margin-top: 20px;
+        }
+
+        .card {
+            background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+            padding: 24px; transition: all 0.3s ease; cursor: pointer;
+            display: flex; flex-direction: column;
+        }
+        .card:hover {
+            border-color: #3b82f6; transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(59,130,246,0.15);
+        }
+        .card-icon { font-size: 2rem; margin-bottom: 12px; }
+        .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; color: #f1f5f9; }
+        .card p { font-size: 0.9rem; color: #94a3b8; line-height: 1.5; flex: 1; }
+        .card-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: #3b82f6; font-size: 0.85rem; font-weight: 600;
+            margin-top: 16px; transition: gap 0.2s;
+        }
+        .card:hover .card-link { gap: 10px; }
+
+        .ad-rect {
+            width: 300px; height: 250px; margin: 30px auto;
+            border: 2px dashed #334155; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: #475569; font-size: 14px; background: #1e293b22;
+        }
+        /* REPLACE WITH ADSENSE CODE */
+
+        footer {
+            text-align: center; padding: 40px 20px;
+            border-top: 1px solid #1e293b; color: #64748b; font-size: 0.85rem;
+        }
+        footer a { color: #3b82f6; }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .features { gap: 20px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- AD BANNER - REPLACE WITH ADSENSE CODE -->
+    <div class="ad-banner">Ad Space (728x90)</div>
+
+    <header>
+        <h1>Dev<span>Tool</span>Kit</h1>
+        <p>Free, fast, private developer tools. No signup, no tracking — everything runs in your browser.</p>
+    </header>
+
+    <div class="features">
+        <div class="feature"><strong>100% Free</strong>No hidden costs</div>
+        <div class="feature"><strong>Client-Side</strong>Data never leaves your browser</div>
+        <div class="feature"><strong>No Signup</strong>Use instantly</div>
+        <div class="feature"><strong>12+ Tools</strong>And growing</div>
+    </div>
+
+    <main>
+        <div class="section">
+            <div class="section-title">Formatting Tools</div>
+            <div class="grid">
+                <a href="json-formatter.html" class="card">
+                    <div class="card-icon">{ }</div>
+                    <h3>JSON Formatter & Validator</h3>
+                    <p>Format, beautify, minify, and validate JSON. Syntax highlighting with collapsible tree view.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="css-minifier.html" class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>CSS Minifier & Beautifier</h3>
+                    <p>Minify CSS to reduce file size or beautify it for readability. See compression stats.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="html-minifier.html" class="card">
+                    <div class="card-icon">📄</div>
+                    <h3>HTML Minifier & Formatter</h3>
+                    <p>Compress HTML by removing comments and whitespace, or format it for easy reading.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="markdown-to-html.html" class="card">
+                    <div class="card-icon">📝</div>
+                    <h3>Markdown to HTML</h3>
+                    <p>Convert Markdown to HTML in real-time. Live preview with support for tables, code blocks, and more.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Encoding & Security</div>
+            <div class="grid">
+                <a href="base64.html" class="card">
+                    <div class="card-icon">🔤</div>
+                    <h3>Base64 Encoder/Decoder</h3>
+                    <p>Encode text to Base64 or decode Base64 strings back to text. Quick and easy.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="url-encoder.html" class="card">
+                    <div class="card-icon">🔗</div>
+                    <h3>URL Encoder/Decoder</h3>
+                    <p>Encode or decode URLs and URL components. Handles special characters properly.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="hash-generator.html" class="card">
+                    <div class="card-icon">🔒</div>
+                    <h3>Hash Generator</h3>
+                    <p>Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text or files.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="password-generator.html" class="card">
+                    <div class="card-icon">🔑</div>
+                    <h3>Password Generator</h3>
+                    <p>Generate strong, random passwords with customizable length and character types. Strength indicator included.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- AD RECTANGLE - REPLACE WITH ADSENSE CODE -->
+        <div class="ad-rect">Ad Space (300x250)</div>
+
+        <div class="section">
+            <div class="section-title">Text Tools</div>
+            <div class="grid">
+                <a href="word-counter.html" class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Word & Character Counter</h3>
+                    <p>Count words, characters, sentences, paragraphs. Reading time estimate and keyword frequency analysis.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="regex-tester.html" class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Regex Tester</h3>
+                    <p>Test regular expressions with real-time highlighting, match details, and common pattern shortcuts.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="lorem-ipsum.html" class="card">
+                    <div class="card-icon">📜</div>
+                    <h3>Lorem Ipsum Generator</h3>
+                    <p>Generate placeholder text in paragraphs, sentences, words, or lists. HTML output option included.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+                <a href="color-picker.html" class="card">
+                    <div class="card-icon">🌈</div>
+                    <h3>Color Picker & Converter</h3>
+                    <p>Pick colors and convert between HEX, RGB, and HSL. Generate complementary palettes.</p>
+                    <span class="card-link">Open Tool →</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 DevToolKit. All tools are free and open to use.</p>
+        <p style="margin-top: 8px;">Built with care. All processing happens in your browser — your data stays private.</p>
+    </footer>
+</body>
+</html>

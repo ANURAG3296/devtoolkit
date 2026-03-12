@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional CSS Minifier and Beautifier tool. Minify CSS code to reduce file size and beautify for better readability. Supports all CSS syntax.">
+    <meta name="keywords" content="CSS minifier, CSS beautifier, CSS optimizer, CSS formatter, code compression">
+    <meta name="author" content="DevToolKit">
+    <meta name="theme-color" content="#0f172a">
+    <title>CSS Minifier & Beautifier - DevToolKit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #1e293b;
+            border-bottom: 2px solid #3b82f6;
+            padding: 1.5rem 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .brand:hover {
+            color: #60a5fa;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #3b82f6;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            width: 100%;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #f1f5f9;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .ad-top {
+            grid-column: 1 / -1;
+            background-color: #1e293b;
+            border: 2px dashed #475569;
+            border-radius: 8px;
+            width: 728px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #334155;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f1f5f9;
+        }
+
+        .textarea-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .textarea-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        textarea {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #e2e8f0;
+            padding: 1rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 300px;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea::placeholder {
+            color: #64748b;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: #64748b;
+            cursor: not-allowed;
+            opacity: 0.6;
+            transform: none;
+        }
+
+        .secondary-btn {
+            background-color: #475569;
+        }
+
+        .secondary-btn:hover {
+            background-color: #64748b;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .ad-sidebar {
+            background-color: #1e293b;
+            border: 2px dashed #475569;
+            border-radius: 8px;
+            width: 100%;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .info-card {
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .info-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-text {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .success-message {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 6px;
+            padding: 1rem;
+            color: #a7f3d0;
+            margin-bottom: 1rem;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            border-radius: 6px;
+            padding: 1rem;
+            color: #fca5a5;
+            margin-bottom: 1rem;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .ad-top {
+                width: 100%;
+                height: 90px;
+            }
+
+            textarea {
+                min-height: 250px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.5rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.25rem;
+            }
+
+            textarea {
+                min-height: 200px;
+                font-size: 0.85rem;
+            }
+
+            button {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .stat-value {
+                font-size: 1.25rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="brand">DevToolKit</a>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">CSS Minifier & Beautifier</h1>
+
+        <div class="layout">
+            <!-- Ad Space Top -->
+            <div class="ad-top">
+                Ad Space 728x90
+                <!-- REPLACE WITH ADSENSE CODE -->
+            </div>
+
+            <div class="main-content">
+                <div id="successMessage" class="success-message">
+                    ✓ Copied to clipboard!
+                </div>
+                <div id="errorMessage" class="error-message">
+                    ✗ An error occurred. Please try again.
+                </div>
+
+                <div class="card">
+                    <div class="textarea-group">
+                        <label class="textarea-label">Input CSS Code</label>
+                        <textarea id="inputCSS" placeholder="Paste your CSS code here..."></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button onclick="minifyCSS()">Minify</button>
+                        <button class="secondary-btn" onclick="beautifyCSS()">Beautify</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Original Size</div>
+                            <div class="stat-value" id="originalSize">0 B</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Result Size</div>
+                            <div class="stat-value" id="resultSize">0 B</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Savings</div>
+                            <div class="stat-value" id="savings">0%</div>
+                        </div>
+                    </div>
+
+                    <div class="textarea-group">
+                        <label class="textarea-label">Output</label>
+                        <textarea id="outputCSS" placeholder="Result will appear here..." readonly></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button class="secondary-btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+                        <button class="secondary-btn" onclick="clearAll()">Clear All</button>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="ad-sidebar">
+                    Ad Space 300x250
+                    <!-- REPLACE WITH ADSENSE CODE -->
+                </div>
+
+                <div class="info-card">
+                    <div class="info-title">About This Tool</div>
+                    <div class="info-text">
+                        Minify your CSS to reduce file size and improve load times. Beautify for better readability during development.
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-title">Features</div>
+                    <div class="info-text">
+                        • Remove comments and whitespace<br>
+                        • Collapse multiple spaces<br>
+                        • Preserve functionality<br>
+                        • Real-time statistics
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        function updateStats() {
+            const inputText = document.getElementById('inputCSS').value;
+            const outputText = document.getElementById('outputCSS').value;
+
+            const originalSize = new Blob([inputText]).size;
+            const resultSize = new Blob([outputText]).size;
+            const savings = originalSize > 0 ? Math.round(((originalSize - resultSize) / originalSize) * 100) : 0;
+
+            document.getElementById('originalSize').textContent = formatBytes(originalSize);
+            document.getElementById('resultSize').textContent = formatBytes(resultSize);
+            document.getElementById('savings').textContent = savings + '%';
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        function minifyCSS() {
+            try {
+                const input = document.getElementById('inputCSS').value;
+                if (!input.trim()) {
+                    showError('Please enter CSS code');
+                    return;
+                }
+
+                // Remove comments
+                let minified = input.replace(/\/\*[\s\S]*?\*\//g, '');
+
+                // Remove newlines and extra whitespace
+                minified = minified.replace(/\s+/g, ' ');
+
+                // Remove spaces around certain characters
+                minified = minified.replace(/\s*([{}:;,>+~])\s*/g, '$1');
+
+                // Remove spaces before opening brace
+                minified = minified.replace(/\s+{/g, '{');
+
+                // Remove trailing semicolon before closing brace
+                minified = minified.replace(/;}/g, '}');
+
+                // Remove leading/trailing spaces
+                minified = minified.trim();
+
+                document.getElementById('outputCSS').value = minified;
+                updateStats();
+            } catch (e) {
+                showError('Error minifying CSS: ' + e.message);
+            }
+        }
+
+        function beautifyCSS() {
+            try {
+                const input = document.getElementById('inputCSS').value;
+                if (!input.trim()) {
+                    showError('Please enter CSS code');
+                    return;
+                }
+
+                let beautified = input;
+
+                // Remove comments
+                beautified = beautified.replace(/\/\*[\s\S]*?\*\//g, '');
+
+                // Normalize whitespace
+                beautified = beautified.replace(/\s+/g, ' ');
+
+                // Add newlines after closing braces
+                beautified = beautified.replace(/}/g, '}\n');
+
+                // Add newlines and indentation after selectors
+                beautified = beautified.replace(/{/g, ' {\n    ');
+
+                // Add newlines after semicolons (except in functions)
+                beautified = beautified.replace(/;(?![\s]*\))/g, ';\n    ');
+
+                // Fix indentation
+                let lines = beautified.split('\n');
+                let indentLevel = 0;
+                beautified = lines.map(line => {
+                    let trimmed = line.trim();
+                    if (!trimmed) return '';
+
+                    if (trimmed.startsWith('}')) {
+                        indentLevel = Math.max(0, indentLevel - 1);
+                    }
+
+                    let indented = '    '.repeat(indentLevel) + trimmed;
+
+                    if (trimmed.endsWith('{')) {
+                        indentLevel++;
+                    }
+                    if (trimmed === '}') {
+                        indentLevel = Math.max(0, indentLevel - 1);
+                    }
+
+                    return indented;
+                }).join('\n');
+
+                // Clean up
+                beautified = beautified.replace(/\n\s*\n/g, '\n');
+                beautified = beautified.trim();
+
+                document.getElementById('outputCSS').value = beautified;
+                updateStats();
+            } catch (e) {
+                showError('Error beautifying CSS: ' + e.message);
+            }
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('outputCSS');
+            if (!output.value) {
+                showError('Nothing to copy');
+                return;
+            }
+
+            output.select();
+            document.execCommand('copy');
+            showSuccess();
+        }
+
+        function clearAll() {
+            document.getElementById('inputCSS').value = '';
+            document.getElementById('outputCSS').value = '';
+            updateStats();
+        }
+
+        function showSuccess() {
+            const msg = document.getElementById('successMessage');
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 2000);
+        }
+
+        function showError(text) {
+            const msg = document.getElementById('errorMessage');
+            msg.textContent = '✗ ' + text;
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 3000);
+        }
+
+        // Update stats on input change
+        document.getElementById('inputCSS').addEventListener('input', () => {
+            document.getElementById('originalSize').textContent = formatBytes(new Blob([document.getElementById('inputCSS').value]).size);
+        });
+    </script>
+</body>
+</html>

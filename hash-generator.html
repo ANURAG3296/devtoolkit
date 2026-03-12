@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes for text and files with instant results.">
+    <meta name="keywords" content="hash generator, MD5, SHA-256, file hash, cryptographic hash">
+    <meta name="author" content="DevToolKit">
+    <meta name="robots" content="index, follow">
+    <title>Hash Generator - DevToolKit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background-color: #1e293b;
+            border-bottom: 1px solid #334155;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .brand:hover {
+            color: #60a5fa;
+        }
+
+        /* Ad Placeholder - Top */
+        .ad-top {
+            background-color: #1e293b;
+            border: 2px dashed #475569;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin: 1rem auto;
+            width: 728px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #1e293b;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #60a5fa;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        /* Form Section */
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* File Upload */
+        .file-upload-area {
+            background-color: #0f172a;
+            border: 2px dashed #334155;
+            border-radius: 0.375rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .file-upload-area:hover {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .file-upload-area.dragover {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .file-upload-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-hint {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-name {
+            color: #60a5fa;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tabs-label {
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #334155;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn:hover {
+            color: #cbd5e1;
+        }
+
+        .tab-btn.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+
+        /* Buttons */
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Hash Results */
+        .hash-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .hash-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .hash-label {
+            color: #cbd5e1;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .hash-output {
+            display: flex;
+            gap: 0.5rem;
+            align-items: stretch;
+        }
+
+        .hash-value {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 0.375rem;
+            padding: 0.75rem 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #60a5fa;
+            word-break: break-all;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .copy-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Ad Placeholder - Sidebar */
+        .ad-sidebar {
+            background-color: #1e293b;
+            border: 2px dashed #475569;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            width: 300px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+        }
+
+        /* Info Card */
+        .info-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 0.375rem;
+            padding: 1.5rem;
+        }
+
+        .info-card h3 {
+            color: #60a5fa;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .info-card ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .info-card li {
+            padding: 0.5rem 0;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .info-card li:before {
+            content: "→ ";
+            color: #3b82f6;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .info-card .warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid #f59e0b;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #fbbf24;
+        }
+
+        /* Copy Feedback */
+        .copy-feedback {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            animation: slideIn 0.3s ease-out;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .ad-sidebar {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .info-card {
+                flex: 1;
+                min-width: 250px;
+            }
+
+            .tabs {
+                flex-direction: column;
+                border-bottom: none;
+            }
+
+            .tab-btn {
+                border-bottom: 1px solid #334155;
+                border-right: 3px solid transparent;
+            }
+
+            .tab-btn.active {
+                border-bottom: 1px solid #334155;
+                border-right-color: #3b82f6;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .hash-output {
+                flex-direction: column;
+            }
+
+            .ad-top {
+                width: 100%;
+                max-width: 728px;
+                height: auto;
+                min-height: 90px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .brand {
+                font-size: 1.25rem;
+            }
+
+            .container {
+                padding: 1rem 0.5rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .hash-value {
+                font-size: 0.75rem;
+            }
+
+            .copy-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="brand">DevToolKit</a>
+            <nav>
+                <a href="index.html" style="color: #94a3b8; text-decoration: none; transition: color 0.2s;">← Back</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Top Ad Placeholder -->
+    <div class="ad-top">
+        Ad Space (728x90) <!-- REPLACE WITH ADSENSE CODE -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Hash Generator Card -->
+            <div class="card">
+                <h2>Hash Generator</h2>
+
+                <div class="form-section">
+                    <!-- Input Tabs -->
+                    <div class="tabs-container">
+                        <span class="tabs-label">Select Input Type</span>
+                        <div class="tabs">
+                            <button class="tab-btn active" data-tab="text-tab">Text Input</button>
+                            <button class="tab-btn" data-tab="file-tab">File Hash</button>
+                        </div>
+                    </div>
+
+                    <!-- Text Input Tab -->
+                    <div id="text-tab" class="tab-content">
+                        <div class="form-group">
+                            <label for="textInput">Enter Text to Hash</label>
+                            <textarea id="textInput" placeholder="Enter the text you want to hash..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- File Input Tab -->
+                    <div id="file-tab" class="tab-content" style="display: none;">
+                        <div class="form-group">
+                            <label>Upload File</label>
+                            <div class="file-upload-area" id="fileUploadArea">
+                                <div class="file-upload-text">Drag and drop a file here</div>
+                                <div class="file-upload-hint">or click to select</div>
+                                <input type="file" id="fileInput">
+                            </div>
+                            <div class="file-name" id="fileName" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Hash Type Tabs -->
+                    <div class="tabs-container">
+                        <span class="tabs-label">Hash Algorithm</span>
+                        <div class="tabs">
+                            <button class="tab-btn active" data-hash="md5">MD5</button>
+                            <button class="tab-btn" data-hash="sha1">SHA-1</button>
+                            <button class="tab-btn" data-hash="sha256">SHA-256</button>
+                            <button class="tab-btn" data-hash="sha512">SHA-512</button>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button class="btn-primary" id="generateBtn" style="width: 100%;">Generate Hash</button>
+                </div>
+
+                <!-- Hash Results -->
+                <div id="resultsContainer" style="display: none; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #334155;">
+                    <div class="hash-results" id="hashResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Ad Placeholder -->
+            <div class="ad-sidebar">
+                Ad Space (300x250) <!-- REPLACE WITH ADSENSE CODE -->
+            </div>
+
+            <!-- Info Card -->
+            <div class="info-card">
+                <h3>Hash Information</h3>
+                <ul>
+                    <li>MD5: 128-bit hash value</li>
+                    <li>SHA-1: 160-bit hash value</li>
+                    <li>SHA-256: 256-bit hash value</li>
+                    <li>SHA-512: 512-bit hash value</li>
+                    <li>All hashes computed locally</li>
+                    <li>No data sent to servers</li>
+                </ul>
+                <div class="warning">
+                    MD5 is cryptographically broken. Use SHA-256 or SHA-512 for security-critical applications.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copy Feedback -->
+    <div id="copyFeedback" class="copy-feedback" style="display: none;">
+        ✓ Copied to clipboard!
+    </div>
+
+    <script>
+        // MD5 implementation
+        const MD5 = (function () {
+            function md5cycle(x, k) {
+                let a = x[0], b = x[1], c = x[2], d = x[3];
+                a = ff(a, b, c, d, k[0], 7, -680876936);
+                d = ff(d, a, b, c, k[1], 12, -389564586);
+                c = ff(c, d, a, b, k[2], 17, 606105819);
+                b = ff(b, c, d, a, k[3], 22, -1044525550);
+                a = ff(a, b, c, d, k[4], 7, -176418897);
+                d = ff(d, a, b, c, k[5], 12, 1200080426);
+                c = ff(c, d, a, b, k[6], 17, -1473231341);
+                b = ff(b, c, d, a, k[7], 22, -45705983);
+                a = ff(a, b, c, d, k[8], 7, 1770035416);
+                d = ff(d, a, b, c, k[9], 12, -1958414417);
+                c = ff(c, d, a, b, k[10], 17, -42063);
+                b = ff(b, c, d, a, k[11], 22, -1990404162);
+                a = ff(a, b, c, d, k[12], 7, 1804603682);
+                d = ff(d, a, b, c, k[13], 12, -40341101);
+                c = ff(c, d, a, b, k[14], 17, -1502002290);
+                b = ff(b, c, d, a, k[15], 22, 1236535329);
+
+                a = gg(a, b, c, d, k[1], 5, -165796510);
+                d = gg(d, a, b, c, k[6], 9, -1069501632);
+                c = gg(c, d, a, b, k[11], 14, 643717713);
+                b = gg(b, c, d, a, k[0], 20, -373897302);
+                a = gg(a, b, c, d, k[5], 5, -701558691);
+                d = gg(d, a, b, c, k[10], 9, 38016083);
+                c = gg(c, d, a, b, k[15], 14, -660478335);
+                b = gg(b, c, d, a, k[4], 20, -405537848);
+                a = gg(a, b, c, d, k[9], 5, 568446438);
+                d = gg(d, a, b, c, k[14], 9, -1019803690);
+                c = gg(c, d, a, b, k[3], 14, -187363961);
+                b = gg(b, c, d, a, k[8], 20, 1163531501);
+                a = gg(a, b, c, d, k[13], 5, -1444681467);
+                d = gg(d, a, b, c, k[2], 9, -51403784);
+                c = gg(c, d, a, b, k[7], 14, 1735328661);
+                b = gg(b, c, d, a, k[12], 20, -1926607734);
+
+                a = hh(a, b, c, d, k[5], 4, -378558);
+                d = hh(d, a, b, c, k[8], 11, -2022574632);
+                c = hh(c, d, a, b, k[11], 16, 1839030562);
+                b = hh(b, c, d, a, k[14], 23, -35309556);
+                a = hh(a, b, c, d, k[1], 4, -1530992060);
+                d = hh(d, a, b, c, k[4], 11, 1272893353);
+                c = hh(c, d, a, b, k[7], 16, -155497632);
+                b = hh(b, c, d, a, k[10], 23, -1094730640);
+                a = hh(a, b, c, d, k[13], 4, 681279174);
+                d = hh(d, a, b, c, k[0], 11, -358537222);
+                c = hh(c, d, a, b, k[3], 16, -722521979);
+                b = hh(b, c, d, a, k[6], 23, 76029189);
+                a = hh(a, b, c, d, k[9], 4, -640364487);
+                d = hh(d, a, b, c, k[12], 11, -421815835);
+                c = hh(c, d, a, b, k[15], 16, 530742520);
+                b = hh(b, c, d, a, k[2], 23, -995338651);
+
+                a = ii(a, b, c, d, k[0], 6, -198630844);
+                d = ii(d, a, b, c, k[7], 10, 1126891415);
+                c = ii(c, d, a, b, k[14], 15, -1416354905);
+                b = ii(b, c, d, a, k[5], 21, -57434055);
+                a = ii(a, b, c, d, k[12], 6, 1700485571);
+                d = ii(d, a, b, c, k[3], 10, -1894986606);
+                c = ii(c, d, a, b, k[10], 15, -1051523);
+                b = ii(b, c, d, a, k[1], 21, -2054922799);
+                a = ii(a, b, c, d, k[8], 6, 1873313359);
+                d = ii(d, a, b, c, k[15], 10, -30611744);
+                c = ii(c, d, a, b, k[6], 15, -1560198380);
+                b = ii(b, c, d, a, k[13], 21, 1309151649);
+                a = ii(a, b, c, d, k[4], 6, -145523070);
+                d = ii(d, a, b, c, k[11], 10, -1120210379);
+                c = ii(c, d, a, b, k[2], 15, 718787259);
+                b = ii(b, c, d, a, k[9], 21, -343487606);
+
+                x[0] = add32(a, x[0]);
+                x[1] = add32(b, x[1]);
+                x[2] = add32(c, x[2]);
+                x[3] = add32(d, x[3]);
+            }
+
+            function ff(a, b, c, d, x, s, t) {
+                a = add32(a, add32(add32((b & c) | (~b & d), x), t));
+                return add32(rol(a, s), b);
+            }
+
+            function gg(a, b, c, d, x, s, t) {
+                a = add32(a, add32(add32((b & d) | (c & ~d), x), t));
+                return add32(rol(a, s), b);
+            }
+
+            function hh(a, b, c, d, x, s, t) {
+                a = add32(a, add32(add32(b ^ c ^ d, x), t));
+                return add32(rol(a, s), b);
+            }
+
+            function ii(a, b, c, d, x, s, t) {
+                a = add32(a, add32(add32(c ^ (b | ~d), x), t));
+                return add32(rol(a, s), b);
+            }
+
+            function add32(a, b) {
+                return (a + b) >>> 0;
+            }
+
+            function rol(num, cnt) {
+                return (num << cnt) | (num >>> (32 - cnt));
+            }
+
+            function md5(str) {
+                let xl = str.length + 8;
+                let la = (xl - (xl % 64)) / 64;
+                let arr = new Array(la + 1);
+                let arrPad = new Uint8Array((la + 1) * 64);
+
+                for (let i = 0; i < str.length; i++) {
+                    arrPad[i] = str.charCodeAt(i);
+                }
+
+                arrPad[str.length] = 0x80;
+
+                let bits = str.length * 8;
+                let bitString = '';
+                for (let i = 0; i < 8; i++) {
+                    bitString += String.fromCharCode(bits >>> (i * 8) & 255);
+                }
+                for (let i = 0; i < 8; i++) {
+                    arrPad[arrPad.length - 8 + i] = bitString.charCodeAt(i);
+                }
+
+                for (let i = 0; i < arr.length; i++) {
+                    arr[i] = new Array(16);
+                    for (let j = 0; j < 16; j++) {
+                        arr[i][j] = arrPad[i * 64 + j * 4] + (arrPad[i * 64 + j * 4 + 1] << 8) + (arrPad[i * 64 + j * 4 + 2] << 16) + (arrPad[i * 64 + j * 4 + 3] << 24);
+                    }
+                }
+
+                let a = 0x67452301;
+                let b = 0xefcdab89;
+                let c = 0x98badcfe;
+                let d = 0x10325476;
+
+                for (let i = 0; i < arr.length; i++) {
+                    let x = arr[i];
+                    let aa = a, bb = b, cc = c, dd = d;
+                    md5cycle(x, [a, b, c, d]);
+                    a = add32(a, aa);
+                    b = add32(b, bb);
+                    c = add32(c, cc);
+                    d = add32(d, dd);
+                }
+
+                return hex(a) + hex(b) + hex(c) + hex(d);
+            }
+
+            function hex(num) {
+                let str = '';
+                for (let i = 0; i < 4; i++) {
+                    str += String.fromCharCode((num >>> (i * 8)) & 255);
+                }
+                return rhex(str);
+            }
+
+            function rhex(str) {
+                let hexes = '0123456789abcdef';
+                let res = '';
+                for (let i = 0; i < str.length; i++) {
+                    res += hexes.charAt((str.charCodeAt(i) >> 4) & 15) + hexes.charAt(str.charCodeAt(i) & 15);
+                }
+                return res;
+            }
+
+            return md5;
+        })();
+
+        // DOM Elements
+        const textInput = document.getElementById('textInput');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const generateBtn = document.getElementById('generateBtn');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const hashResults = document.getElementById('hashResults');
+        const copyFeedback = document.getElementById('copyFeedback');
+        const tabBtns = document.querySelectorAll('.tabs [data-tab]');
+        const hashBtns = document.querySelectorAll('.tabs [data-hash]');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        let currentFile = null;
+        let selectedHash = 'md5';
+
+        // Tab switching for input type
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                tabContents.forEach(content => content.style.display = 'none');
+                document.getElementById(btn.dataset.tab).style.display = 'block';
+            });
+        });
+
+        // Tab switching for hash type
+        hashBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                hashBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedHash = btn.dataset.hash;
+            });
+        });
+
+        // File upload handling
+        fileUploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                currentFile = e.dataTransfer.files[0];
+                fileName.textContent = `File: ${currentFile.name}`;
+                fileName.style.display = 'block';
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                currentFile = e.target.files[0];
+                fileName.textContent = `File: ${currentFile.name}`;
+                fileName.style.display = 'block';
+            }
+        });
+
+        // Hash calculation
+        async function calculateHashes(data, isFile = false) {
+            const results = {};
+
+            if (isFile) {
+                // File hashing
+                const buffer = await data.arrayBuffer();
+                const bytes = new Uint8Array(buffer);
+
+                // MD5
+                let str = '';
+                for (let i = 0; i < bytes.length; i++) {
+                    str += String.fromCharCode(bytes[i]);
+                }
+                results.md5 = MD5(str);
+
+                // SHA hashes
+                results.sha1 = await hashWithSubtle('SHA-1', buffer);
+                results.sha256 = await hashWithSubtle('SHA-256', buffer);
+                results.sha512 = await hashWithSubtle('SHA-512', buffer);
+            } else {
+                // Text hashing
+                results.md5 = MD5(data);
+
+                const encoder = new TextEncoder();
+                const dataBuffer = encoder.encode(data);
+
+                results.sha1 = await hashWithSubtle('SHA-1', dataBuffer);
+                results.sha256 = await hashWithSubtle('SHA-256', dataBuffer);
+                results.sha512 = await hashWithSubtle('SHA-512', dataBuffer);
+            }
+
+            return results;
+        }
+
+        async function hashWithSubtle(algorithm, data) {
+            const hashBuffer = await crypto.subtle.digest(algorithm, data);
+            return Array.from(new Uint8Array(hashBuffer))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
+
+        // Display results
+        function displayResults(results) {
+            hashResults.innerHTML = '';
+
+            const algorithms = ['md5', 'sha1', 'sha256', 'sha512'];
+            const labels = ['MD5', 'SHA-1', 'SHA-256', 'SHA-512'];
+
+            algorithms.forEach((algo, index) => {
+                const item = document.createElement('div');
+                item.className = 'hash-item';
+
+                const label = document.createElement('div');
+                label.className = 'hash-label';
+                label.textContent = labels[index];
+
+                const output = document.createElement('div');
+                output.className = 'hash-output';
+
+                const value = document.createElement('div');
+                value.className = 'hash-value';
+                value.textContent = results[algo];
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'btn-secondary btn-small copy-btn';
+                copyBtn.textContent = 'Copy';
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(results[algo]).then(() => {
+                        copyFeedback.style.display = 'block';
+                        setTimeout(() => {
+                            copyFeedback.style.display = 'none';
+                        }, 2000);
+                    });
+                });
+
+                output.appendChild(value);
+                output.appendChild(copyBtn);
+
+                item.appendChild(label);
+                item.appendChild(output);
+
+                hashResults.appendChild(item);
+            });
+
+            resultsContainer.style.display = 'block';
+        }
+
+        // Generate button click
+        generateBtn.addEventListener('click', async () => {
+            const isFileMode = document.getElementById('file-tab').style.display !== 'none';
+
+            let dataToHash = null;
+
+            if (isFileMode) {
+                if (!currentFile) {
+                    alert('Please select a file first');
+                    return;
+                }
+                dataToHash = currentFile;
+            } else {
+                dataToHash = textInput.value;
+                if (!dataToHash) {
+                    alert('Please enter some text to hash');
+                    return;
+                }
+            }
+
+            try {
+                const results = await calculateHashes(dataToHash, isFileMode);
+                displayResults(results);
+            } catch (error) {
+                alert('Error calculating hash: ' + error.message);
+            }
+        });
+
+        // Allow Enter key to generate
+        textInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                generateBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
